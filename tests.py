@@ -69,5 +69,23 @@ class TestRSAModes(unittest.TestCase):
         dec = ecb.decrypt_text(enc, self.d, self.n, self.block_size)
         self.assertEqual(text, dec)
 
+
+    def test_block_size_validation(self):
+        print("\n--- Testing Block Size Validation ---")
+        # The modulus is 128 bits 
+        # This means the integer value of the block could easily exceed n, causing data loss.
+
+        too_large_block_size = 32
+        
+        print(f"Testing invalid block size: {too_large_block_size} (Modulus is ~16 bytes)")
+
+        # Verify that the low-level validation function raises ValueError
+        with self.assertRaises(ValueError):
+            rsa_core.validate_block_size(too_large_block_size, self.n)
+
+        # Verify that high-level functions also catch this error
+        with self.assertRaises(ValueError):
+            ecb.encrypt_text("This should fail", self.e, self.n, too_large_block_size)
+
 if __name__ == '__main__':
     unittest.main()
