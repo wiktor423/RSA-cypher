@@ -208,5 +208,5 @@ def rsa_decrypt_block(c: int, d: int, n: int) -> int:
     """
     r = pow(c, d, n)
     print(f"[DECRYPT] ciphertext block c = {c}")
-    print(f"[DECRYPT] recovered plaintext m = c^d mod n = {pow(c, d, n)}")
+    print(f"[DECRYPT] recovered plaintext block m = c^d mod n = {pow(c, d, n)}")
     return r
